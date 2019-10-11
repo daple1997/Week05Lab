@@ -24,13 +24,11 @@
         <form action="shoppingList" method="post">
             <c:forEach var="items" items="${items}" >   
                 <p>           
-                    <input type="radio">
-                        
+                    <input type="radio">           
                      ${items}
-                </p>     
-                <input type="submit" value="delete">
-                 
-            </c:forTokens>
+                </p>       
+            </c:forEach>
+            <input type="submit" value="delete">
         </form>
         
     </body>

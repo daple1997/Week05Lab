@@ -46,6 +46,8 @@ public class ShoppingListServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
         session.setAttribute("username", username);
+        ArrayList<String> items = null;
+        session.setAttribute("items", items);
         getServletContext().getRequestDispatcher("/WEB-INF/register.jsp")
                 .forward(request, response);
     }
@@ -67,11 +69,13 @@ public class ShoppingListServlet extends HttpServlet {
         session.setAttribute("username", username);
         
 //        shopping list
-        ArrayList<String> items = new ArrayList<>();
+        
+        ArrayList<String>items = new ArrayList<>();
+        items.add((String)session.getAttribute("items"));
         items.add(request.getParameter("item"));
-        for(String i: items){
-            session.setAttribute("items", i);
-        }
+        request.setAttribute("items", items);
+        
+        
         
         getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp")
                 .forward(request, response);
