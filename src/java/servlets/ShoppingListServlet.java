@@ -7,6 +7,7 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +43,9 @@ public class ShoppingListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
+        session.setAttribute("username", username);
         getServletContext().getRequestDispatcher("/WEB-INF/register.jsp")
                 .forward(request, response);
     }
@@ -57,9 +61,18 @@ public class ShoppingListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // registration
         HttpSession session = request.getSession();
-        String username = (String) request.getAttribute("username");
+        String username = (String) request.getParameter("username");
         session.setAttribute("username", username);
+        
+//        shopping list
+        ArrayList<String> items = new ArrayList<>();
+        items.add(request.getParameter("item"));
+        for(String i: items){
+            session.setAttribute("items", i);
+        }
+        
         getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp")
                 .forward(request, response);
     }
